@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        /* 基于Promise发送Ajax请求 */
+        function queryData(url) {
+            // 1.创建Promise实例
+            let p = new Promise(function(resolve, reject) {
+                let xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState != 4) return;
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        // 正常处理
+                        resolve(xhr.responseText);
+                    } else {
+                        // 异常处理
+                        reject("服务器错误");
+                    }
+                }
+                xhr.open('get', url);
+                xhr.send(null);
+            });
+            return p;
+        }
+        // 在then方法中，可以直接return数据而不是Promise对象，在后面的then中就可以接收数据了
+        queryData('http://localhost:6063/college/page?size=5&page=1').then(function(data) {
+            console.log(data);
+            return data;
+        }).then(function(data) {
+            console.log(data);
+        })
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+    </script>
+</body>
+
+</html>
