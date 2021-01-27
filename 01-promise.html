@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+
+        /*
+            1.Promise基本使用
+                使用new来构建一个Promise对象，Promise的构造函数接收一个参数，
+                该参数是一个函数，该函数接收两个参数：resolve，reject，分别表示
+                异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。 
+         */
+        let p = new Promise(function(resolve, reject) {
+            // 模拟异步任务
+            setTimeout(() => {
+                let flag = false;
+                if(flag) {
+                    resolve('正常');
+                } else {
+                    reject('出错了');
+                }
+            }, 1000);
+        });
+
+        // 2.Promise实例生成后，可以用then方法执行resolve状态和reject状态的回调函数。
+        // then方法中，可以直接return数据而不是Promise对象，则在后面的then中就可以接收到数据了。
+        p.then(function(data){
+            console.log(data);
+        }, function(error) {
+            console.log(error);
+        })
+
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+    </script>
+</body>
+
+</html>
