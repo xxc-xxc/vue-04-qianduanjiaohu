@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        /* 
+            1.fetch(url, options).then()
+            2.HTTP协议，POST，GET，DELETE，PUT...
+                (1)默认GET请求
+                (2)需要在options对象中指定对应的method，method:请求方法
+                (3)post请求需要在options中设置请求头headers和body
+        */
+
+        // 1.get 请求
+        // 1.1.get参数传递，可以通过url ? 的形式拼接参数
+        // 1.2.get参数传递，restful形式的url，通过/的形式传递参数
+        // fetch('http://localhost:6063/university/find/282d40e8536942eeaa923204e78d91c3', {
+        //     method: 'get',
+        // }).then(function (response) {
+        //     return response.text();
+        // }).then(function (response) {
+        //     console.log(response);
+        // });
+
+        // 2.delete请求
+        // fetch('http://localhost:6063/university/delete/282d40e8536942eeaa923204e78d91c3', {
+        //     method: 'delete',
+        // }).then(function (response) {
+        //     return response.text();
+        // }).then(function (response) {
+        //     console.log(response);
+        // });
+
+        // 3.post请求
+        // let json = {
+        //     "universityName": "上海交大",
+        //     "universityCode": "37827489",
+        // }
+        // fetch('http://localhost:6063/university/add', {
+        //     method: 'post',
+        //     // 传递数据
+        //     body: JSON.stringify(json),
+        //     // 设置请求头
+        //     headers: {
+        //         'Content-Type': 'application/json;charset=UTF-8'
+        //     }
+        // }).then(function (response) {
+        //     return response.text();
+        // }).then(function (response) {
+        //     console.log(response);
+        // });
+
+        // 4.put请求
+        fetch('http://localhost:6063/university/update', {
+            method: 'put',
+            body: JSON.stringify({
+                id: '2f9e458dc9fb41fda1dea57fd5ee58f5',
+                remarks: '123备注了寂寞'
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            }
+        }).then(function (response) {
+            return response.text();
+        }).then(function (response) {
+            console.log(response);
+        });
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            },
+        });
+    </script>
+</body>
+
+</html>

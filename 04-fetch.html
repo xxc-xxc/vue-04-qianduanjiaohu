@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        /* 
+            1.Fetch API是新的ajax解决方案，Fetch会返回Promise
+            2.fetch不是ajax的进一步封装，而是原生js，没有使用XMLHttpRequest
+            3.fetch(url, options).then()
+        */
+
+        /* 
+            第一个参数为请求路径，Fetch会返回Promise
+        */
+        fetch('http://localhost:6063/university/page?size=5&page=1').then(function(data) {
+            // text()方法属于fetch API的一部分，它返回一个Promise实例对象，用于获取后台返回数据
+            return data.text();
+        }).then(function(data) {
+            // 获取最终数据
+            console.log(data);
+        });
+        
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+    </script>
+</body>
+
+</html>

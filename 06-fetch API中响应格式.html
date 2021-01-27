@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+
+        /* 
+            1.用fetch来获取数据，如果响应正常返回，首先拿到response对象，
+              其中包括返回的一堆原始字节，需要调用相应方法转换为相应格式，
+              如JSON，BLOB，TEXT...
+        */
+       fetch('http://localhost:6063/university/find/282d40e8536942eeaa923204e78d91c3').then(function(response) {
+        //    return response.json(); // 转为json对象
+           return response.text(); // 转为text字符串
+       }).then(function(response) {
+           console.log(response);
+           let obj = JSON.parse(response);
+           console.log(obj.data.universityName)
+       })
+        
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+    </script>
+</body>
+
+</html>
