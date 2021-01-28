@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+
+        /* 
+            axios拦截器
+                1.请求拦截器：在发送请求之前进行一些操作，如在每个请求体加上token
+                2.响应拦截器：在接收到响应后进行一些操作，如在服务器返回登录状态失效，需要重新登录时，跳转到登录页
+         */
+        function add() {
+            axios.interceptors.request.use(function(config) {
+                console.log(config.url);
+            })
+        }
+    </script>
+</body>
+
+</html>
