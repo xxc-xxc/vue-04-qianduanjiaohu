@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <form action="http://localhost:6063/university/add" method="post">
+            <label for="name">学校名称：</label>
+            <input type="text" name="universityName" id="name">
+            <label for="code">学校代码</label>
+            <input type="text" name="universityCode" id="code">
+            <input type="submit" value="提交">
+        </form>
+        <div>
+            <input type="button" value="get" id="get">
+        </div>
+        <div>
+            <input type="button" value="get1" id="get1">
+        </div>
+        <div>
+            <input type="button" value="get2" id="get2">
+        </div>
+        <div>
+            <input type="button" value="get3" id="get3">
+        </div>
+        <div>
+            <input type="button" value="delete" id="delete">
+        </div>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            },
+        });
+
+        /* 
+            1.get和delete请求传递参数
+                (1)通过传统的url，以?的形式传递参数
+                (2)restful形式传递参数
+                (3)通过params形式传递参数
+            2.post和put请求传递参数
+                (1)通过选项传递参数
+                (2)通过URLSearchParams传递参数
+        */
+
+        // 1.get请求 
+        let get = document.getElementById("get");
+        get.onclick = function () {
+            axios.get('http://localhost:6063/university/find/282d40e8536942eeaa923204e78d91c3').then(function (ret) { 
+                // 注意data属性是固定的用法，用于获取后台的实际数据
+                // console.log(ret.data)
+                console.log(ret)
+            });
+        }
+
+        // 2.get请求 传参
+        // 2.1 ?的形式传参
+        let get1 = document.getElementById("get1");
+        get1.onclick = function() {
+            axios.get('http://localhost:6063/university/find?id=123').then(function(ret) {
+                console.log(ret)
+            });
+        }
+
+        // 2.2 restful形式传参
+        let get2 = document.getElementById("get2");
+        get2.onclick = function () {
+            axios.get('http://localhost:6063/university/find/282d40e8536942eeaa923204e78d91c3').then(function (ret) { 
+                // 注意data属性是固定的用法，用于获取后台的实际数据
+                // console.log(ret.data)
+                console.log(ret)
+            });
+        }
+
+        // 2.3 通过params形式传参
+        let get3 = document.getElementById("get3");
+        get3.onclick = function () {
+            axios.get('http://localhost:6063/university/find', {
+                params: {
+                    id: 123
+                }
+            }).then(function (ret) { 
+                // 注意data属性是固定的用法，用于获取后台的实际数据
+                // console.log(ret.data)
+                console.log(ret)
+            });
+        }
+
+        // 3.delete请求参数，与get相同
+        let delete1 = document.getElementById("delete");
+        delete1.onclick = function () {
+            axios.delete('http://localhost:6063/university/find', {
+                params: {
+                    id: 123
+                }
+            }).then(function (ret) { 
+                // 注意data属性是固定的用法，用于获取后台的实际数据
+                // console.log(ret.data)
+                console.log(ret)
+            });
+        }
+
+    </script>
+</body>
+
+</html>
