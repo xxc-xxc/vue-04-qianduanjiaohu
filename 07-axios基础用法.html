@@ -62,10 +62,20 @@
                 (2)通过URLSearchParams传递参数
         */
 
+        // axios全局配置
+        // 配置公共请求头
+        axios.defaults.baseURL = "http://localhost:6063";
+        // 配置超时时间
+        axios.defaults.timeout = 3000;
+        // 配置公共请求头
+        // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+        // 配置公共的post的Content-Type
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
         // 1.get请求 
         let get = document.getElementById("get");
         get.onclick = function () {
-            axios.get('http://localhost:6063/university/find/282d40e8536942eeaa923204e78d91c3').then(function (ret) { 
+            axios.get('/university/find/282d40e8536942eeaa923204e78d91c3').then(function (ret) { 
                 // 注意data属性是固定的用法，用于获取后台的实际数据
                 // console.log(ret.data)
                 console.log(ret)
