@@ -34,6 +34,12 @@
         <div>
             <input type="button" value="delete" id="delete">
         </div>
+        <div>
+            <input type="button" value="post" id="post">
+        </div>
+        <div>
+            <input type="button" value="put" id="put">
+        </div>
     </div>
     <script>
         let vm = new Vue({
@@ -110,6 +116,38 @@
                 // 注意data属性是固定的用法，用于获取后台的实际数据
                 // console.log(ret.data)
                 console.log(ret)
+            });
+        }
+
+        // 4.post请求
+        let post = document.getElementById("post");
+        post.onclick = function() {
+            // (1)通过选项传递参数
+            // axios.post('http://localhost:6063/university/add', {
+            //     universityName: "xxx",
+            //     universityCode: "123",
+            // }).then(function(ret) {
+            //     console.log(ret.data);
+            // });
+
+            // (2)通过URLSearchParams传递参数
+            let params = new URLSearchParams();
+            params.append("universityName", "xxx");
+            params.append("universityCode", "123");
+            axios.post("http://localhost:6063/university/add", params).then(function(ret) {
+                console.log(ret.data);
+            })
+        }
+
+        // 5.put请求 与post一样
+        let put = document.getElementById("put");
+        put.onclick = function() {
+            // (1)通过选项传递参数
+            axios.put('http://localhost:6063/university/add', {
+                universityName: "xxx",
+                universityCode: "123",
+            }).then(function(ret) {
+                console.log(ret.data);
             });
         }
 
