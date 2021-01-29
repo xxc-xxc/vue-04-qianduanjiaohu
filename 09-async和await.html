@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        let vm=new Vue({
+           el:'#app',
+           data:{
+
+           },
+           methods:{
+
+           },
+        });
+
+        /* 
+            async和await
+            1.async作为一个关键字放到函数前面
+                任何一个async函数都会隐式返回一个promise
+            2.await关键字只能在使用async定义的函数中使用
+                await后面可以直接跟一个Promise实例对象
+                await函数不能单独使用
+            3.async/await让异步代码看起来、表现起来更像同步代码
+        */
+
+        // 1.async基础用法
+        async function queryData() {
+            let ret = await new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve("nihao");
+                }, 1000);
+            })
+            return ret;
+        }
+        // 任何一个async函数都会隐式返回一个promise，可以使用then进行链式编程
+        queryData().then(function (data) { 
+            console.log(data);
+         })
+
+         // 2.async函数处理多个异步函数
+         axios.defaults.baseURL = 'http://localhost:6063';
+         async function queryData1() {
+             let info = await axios.get('university/find/282d40e8536942eeaa923204e78d91c3');
+             console.log(info.data);
+            //  let ret = await axios.get('university/find/' + info.data);
+            //  return ret.data;
+            return info.data;
+         }
+         queryData1().then(function (data) { 
+             console.log(data);
+          })
+    </script>
+</body>
+
+</html>
