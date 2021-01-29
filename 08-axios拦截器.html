@@ -28,8 +28,20 @@
                 2.响应拦截器：在接收到响应后进行一些操作，如在服务器返回登录状态失效，需要重新登录时，跳转到登录页
          */
         function add() {
+            // 请求拦截器
             axios.interceptors.request.use(function(config) {
                 console.log(config.url);
+                config.headers.mytoken = "nihao";
+                // 一定要return，否则配置不成功
+                return config;
+            });
+
+            // 响应拦截器
+            axios.interceptors.response.use(function(res) {
+                let data = res.data;
+                return data;
+            }, function(err) {
+                console.log(err);
             })
         }
     </script>
