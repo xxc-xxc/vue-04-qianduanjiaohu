@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="./js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="grid">
+            <div>
+                <h1>图书管理</h1>
+                <div class="book">
+                    <div>
+                        <label for="id">
+                            编号：
+                        </label>
+                        <input type="text" id="id" v-model='id' disabled="false" v-focus>
+                        <label for="name">
+                            名称：
+                        </label>
+                        <input type="text" id="name" v-model='name'>
+                        <button @click='handle' :disabled="submitFlag">提交</button>
+                    </div>
+                </div>
+            </div>
+            <div class="total">
+                <span>图书总数：</span>
+                <span>{{total}}</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in books" :key="index">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.date}}</td>
+                        <td>
+                            <a href="" @click.prevent='toEdit(item.id)'>修改</a>
+                            <span>|</span>
+                            <a href="">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+
+        // 配置公共url
+        axios.defaults.baseURL = 'http://localhost:3000/';
+        // 配置响应拦截
+        axios.interceptors.response.use(function (res) {
+            return res.data;
+        }, function (error) {
+            console.log(error)
+        });
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus();
+            }
+        });
+        Vue.filter('format', function (value, arg) {
+            function dateFormat(date, format) {
+                if (typeof date === "string") {
+                    var mts = date.match(/(\/Date\((\d+)\)\/)/);
+                    if (mts && mts.length >= 3) {
+                        date = parseInt(mts[2]);
+                    }
+                }
+                date = new Date(date);
+                if (!date || date.toUTCString() == "Invalid Date") {
+                    return "";
+                }
+                var map = {
+                    "M": date.getMonth() + 1, //月份 
+                    "d": date.getDate(), //日 
+                    "h": date.getHours(), //小时 
+                    "m": date.getMinutes(), //分 
+                    "s": date.getSeconds(), //秒 
+                    "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+                    "S": date.getMilliseconds() //毫秒 
+                };
+                format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+                    var v = map[t];
+                    if (v !== undefined) {
+                        if (all.length > 1) {
+                            v = '0' + v;
+                            v = v.substr(v.length - 2);
+                        }
+                        return v;
+                    } else if (t === 'y') {
+                        return (date.getFullYear() + '').substr(4 - all.length);
+                    }
+                    return all;
+                });
+                return format;
+            }
+            return dateFormat(value, arg);
+        })
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false,
+                submitFlag: false,
+                id: '',
+                name: '',
+                books: [],
+            },
+            methods: {
+                async handle() {
+                    if(this.flag) {
+                        // 编辑图条数
+                    } else {
+                        // 新增图书
+                        // let ret = await axios.post('books', {
+                        //     id: this.id,
+                        //     name: this.name,
+                        // })
+                        // if(ret.status == 200) {
+                        //     this.queryData();
+                        // }
+                        let book;
+                        if(this.books.length === 0) {
+                            book = {id: 1, name: this.name}
+                        } else {
+                            book = {id: this.books[this.books.length-1].id + 1, name: this.name}
+                        }
+                        this.books.push(book);
+                        this.queryData();
+                    }
+                    // 清空表单
+                    this.id = '';
+                    this.name = '';
+                },
+                async toEdit(id) {
+                    this.flag = true;
+                    let ret = await axios.get('books/' + id);
+                    this.id = ret.id;
+                    this.name = ret.name;
+                },
+                async queryData() {
+                    // 调用接口
+                    //    let ret = await axios.get('books');
+                    //    this.books = ret.data;
+                    //    this.books = await axios.get('books');
+
+                    // this.books = [
+                    //     { id: 1, name: '三国演义', date: '2021年1月30日01:45:50' },
+                    //     { id: 2, name: '水浒传', date: '2021年1月30日01:45:50' },
+                    //     { id: 3, name: '西游记', date: '2021年1月30日01:45:50' },
+                    //     { id: 4, name: '红楼梦', date: '2021年1月30日01:45:50' },
+                    // ]
+                    return this.books;
+                }
+            },
+            computed: {
+                total() {
+                    return this.books.length;
+                }
+            },
+            mounted() {
+                this.queryData();
+            },
+        });
+    </script>
+</body>
+
+</html>
